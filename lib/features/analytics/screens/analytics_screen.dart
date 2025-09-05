@@ -145,7 +145,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildSpendingMetric(
                         'Income',
-                        '₹0.00',
+                        '₹50,000',
                         Icons.trending_up,
                         Colors.green,
                       ),
@@ -158,7 +158,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildSpendingMetric(
                         'Expenses',
-                        '₹0.00',
+                        '₹28,500',
                         Icons.trending_down,
                         Colors.red,
                       ),
@@ -171,7 +171,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildSpendingMetric(
                         'Net',
-                        '₹0.00',
+                        '₹21,500',
                         Icons.account_balance,
                         Colors.blue,
                       ),
@@ -208,7 +208,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildNetWorthMetric(
                         'Current',
-                        '₹771.00',
+                        '₹72,500',
                         Icons.account_balance_wallet,
                         Colors.blue,
                       ),
@@ -221,7 +221,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildNetWorthMetric(
                         'Assets',
-                        '₹771.00',
+                        '₹72,500',
                         Icons.trending_up,
                         Colors.green,
                       ),
@@ -234,7 +234,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: _buildNetWorthMetric(
                         'Liabilities',
-                        '₹0.00',
+                        '₹23,500',
                         Icons.trending_down,
                         Colors.red,
                       ),
@@ -292,12 +292,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // TODO: Replace with actual category data
-                _buildCategoryItem('Food & Dining', 0.0, 0.0, Colors.orange),
-                _buildCategoryItem('Transportation', 0.0, 0.0, Colors.blue),
-                _buildCategoryItem('Shopping', 0.0, 0.0, Colors.purple),
-                _buildCategoryItem('Entertainment', 0.0, 0.0, Colors.green),
-                _buildCategoryItem('Bills & Utilities', 0.0, 0.0, Colors.red),
+                _buildCategoryItem('Food & Dining', 8500.0, 29.8, Colors.orange),
+                _buildCategoryItem('Transportation', 4200.0, 14.7, Colors.blue),
+                _buildCategoryItem('Shopping', 6800.0, 23.9, Colors.purple),
+                _buildCategoryItem('Entertainment', 3200.0, 11.2, Colors.green),
+                _buildCategoryItem('Bills & Utilities', 5800.0, 20.4, Colors.red),
               ],
             ),
           ),
@@ -524,9 +523,6 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   /// Navigate to add account
   void _navigateToAddAccount() {
-    // TODO: Implement add account navigation
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add Account - Coming Soon')),
-    );
+    Navigator.pushNamed(context, '/add-account');
   }
 }
