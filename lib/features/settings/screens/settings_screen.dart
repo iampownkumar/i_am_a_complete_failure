@@ -324,49 +324,103 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   /// Navigate to language settings
   void _navigateToLanguageSettings() {
-    // TODO: Implement language settings
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Language Settings - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Language Settings'),
+        content: const Text('Language selection will be available in future updates. Currently supported: English'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to currency settings
   void _navigateToCurrencySettings() {
-    // TODO: Implement currency settings
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Currency Settings - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Currency Settings'),
+        content: const Text('Default currency is INR (₹). Multi-currency support is available for transactions.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to backup settings
   void _navigateToBackupSettings() {
-    // TODO: Implement backup settings
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Backup Settings - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Backup & Sync'),
+        content: const Text('Cloud backup and sync features will be available in future updates. Your data is currently stored locally.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to security settings
   void _navigateToSecuritySettings() {
-    // TODO: Implement security settings
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Security Settings - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Security Settings'),
+        content: const Text('Security features like PIN, biometric authentication, and app lock will be available in future updates.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to privacy settings
   void _navigateToPrivacySettings() {
-    // TODO: Implement privacy settings
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Privacy Settings - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Privacy Settings'),
+        content: const Text('Privacy controls and data usage settings will be available in future updates. Your data is stored locally and not shared.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to help
   void _navigateToHelp() {
-    // TODO: Implement help navigation
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Help & Support - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Help & Support'),
+        content: const Text('For support and help, please contact us at support@koraexpense.com or visit our website.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -399,17 +453,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   /// Navigate to rate app
   void _navigateToRateApp() {
-    // TODO: Implement rate app
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Rate App - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Rate App'),
+        content: const Text('Thank you for using Kora Expense Tracker! Please rate us on the Play Store to help others discover our app.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Later'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // TODO: Open Play Store rating page
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Opening Play Store...')),
+              );
+            },
+            child: const Text('Rate Now'),
+          ),
+        ],
+      ),
     );
   }
 
   /// Navigate to edit profile
   void _navigateToEditProfile() {
-    // TODO: Implement edit profile
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Edit Profile - Coming Soon')),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Profile'),
+        content: const Text('Profile editing features will be available in future updates. Currently, profile information is displayed as read-only.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -473,17 +555,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   /// Delete all data
   void _deleteAllData() {
-    // TODO: Implement delete all data
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Delete All Data - Coming Soon')),
+      const SnackBar(content: Text('Data deletion feature will be available in future updates')),
     );
   }
 
   /// Reset app
   void _resetApp() {
-    // TODO: Implement reset app
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Reset App - Coming Soon')),
+      const SnackBar(content: Text('App reset feature will be available in future updates')),
     );
   }
 }
