@@ -564,8 +564,36 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   }
 
   List<String> _getSubCategories(String category) {
-    // TODO: Implement subcategories based on category
-    return [];
+    switch (category) {
+      case 'Food & Dining':
+        return ['Restaurants', 'Fast Food', 'Coffee', 'Groceries'];
+      case 'Transportation':
+        return ['Uber', 'Taxi', 'Public Transport', 'Fuel', 'Parking'];
+      case 'Shopping':
+        return ['Clothing', 'Electronics', 'Books', 'General'];
+      case 'Entertainment':
+        return ['Movies', 'Music', 'Games', 'Sports'];
+      case 'Bills & Utilities':
+        return ['Electricity', 'Water', 'Internet', 'Phone', 'Rent'];
+      case 'Healthcare':
+        return ['Doctor', 'Pharmacy', 'Gym', 'Medical Tests'];
+      case 'Education':
+        return ['Tuition', 'Books & Supplies', 'Courses'];
+      case 'Travel':
+        return ['Flights', 'Hotels', 'Car Rental', 'Local Transport'];
+      case 'Salary':
+        return ['Monthly Salary', 'Overtime', 'Commission'];
+      case 'Freelance':
+        return ['Project Payment', 'Consulting', 'Gig Work'];
+      case 'Investment':
+        return ['Stocks', 'Mutual Funds', 'Bonds', 'Crypto'];
+      case 'Bonus':
+        return ['Performance Bonus', 'Festival Bonus', 'Annual Bonus'];
+      case 'Refund':
+        return ['Purchase Refund', 'Tax Refund', 'Insurance Refund'];
+      default:
+        return [];
+    }
   }
 
   List<Map<String, String>> _getAccounts() {
