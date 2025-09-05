@@ -4,6 +4,11 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors/app_colors.dart';
 import '../../../core/constants/strings/app_strings.dart';
+import '../../transactions/screens/add_transaction_screen.dart';
+import '../../transactions/screens/transfer_money_screen.dart';
+import '../../accounts/screens/add_account_screen.dart';
+import '../../credit_cards/screens/add_credit_card_screen.dart';
+import '../../sms/screens/sms_parsing_screen.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   const QuickActionsGrid({super.key});
@@ -21,10 +26,10 @@ class QuickActionsGrid extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         GridView.count(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 1.2,
+          childAspectRatio: 1.0,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
           children: [
@@ -32,37 +37,100 @@ class QuickActionsGrid extends StatelessWidget {
               title: AppStrings.addTransaction,
               icon: Icons.add,
               color: AppColors.primary,
-              onTap: () {
-                // TODO: Navigate to add transaction screen
-              },
+              onTap: () => _navigateToAddTransaction(context),
             ),
             _ActionCard(
               title: AppStrings.transferMoney,
               icon: Icons.swap_horiz,
               color: AppColors.info,
-              onTap: () {
-                // TODO: Navigate to transfer money screen
-              },
+              onTap: () => _navigateToTransferMoney(context),
             ),
             _ActionCard(
               title: AppStrings.addAccount,
               icon: Icons.account_balance,
               color: AppColors.success,
-              onTap: () {
-                // TODO: Navigate to add account screen
-              },
+              onTap: () => _navigateToAddAccount(context),
             ),
             _ActionCard(
               title: AppStrings.addCreditCard,
               icon: Icons.credit_card,
               color: AppColors.warning,
-              onTap: () {
-                // TODO: Navigate to add credit card screen
-              },
+              onTap: () => _navigateToAddCreditCard(context),
+            ),
+            _ActionCard(
+              title: 'SMS Parsing',
+              icon: Icons.sms,
+              color: AppColors.secondary,
+              onTap: () => _navigateToSmsParsing(context),
+            ),
+            _ActionCard(
+              title: 'Analytics',
+              icon: Icons.analytics,
+              color: AppColors.purple,
+              onTap: () => _navigateToAnalytics(context),
             ),
           ],
         ),
       ],
+    );
+  }
+
+  /// Navigate to add transaction screen
+  void _navigateToAddTransaction(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddTransactionScreen(),
+      ),
+    );
+  }
+
+  /// Navigate to transfer money screen
+  void _navigateToTransferMoney(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TransferMoneyScreen(),
+      ),
+    );
+  }
+
+  /// Navigate to add account screen
+  void _navigateToAddAccount(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddAccountScreen(),
+      ),
+    );
+  }
+
+  /// Navigate to add credit card screen
+  void _navigateToAddCreditCard(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddCreditCardScreen(),
+      ),
+    );
+  }
+
+  /// Navigate to SMS parsing screen
+  void _navigateToSmsParsing(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SmsParsingScreen(),
+      ),
+    );
+  }
+
+  /// Navigate to analytics screen
+  void _navigateToAnalytics(BuildContext context) {
+    // Switch to analytics tab in main navigation
+    // This will be handled by the parent navigation
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Switch to Analytics tab to view detailed analytics')),
     );
   }
 }

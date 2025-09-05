@@ -504,6 +504,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         return AppStrings.expense;
       case TransactionType.transfer:
         return AppStrings.transfer;
+      case TransactionType.investment:
+        return 'Investment';
     }
   }
 
@@ -515,6 +517,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         return AppColors.error;
       case TransactionType.transfer:
         return AppColors.info;
+      case TransactionType.investment:
+        return AppColors.purple;
     }
   }
 

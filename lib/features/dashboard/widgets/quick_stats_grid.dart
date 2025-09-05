@@ -30,25 +30,25 @@ class QuickStatsGrid extends StatelessWidget {
           children: const [
             _StatCard(
               title: AppStrings.monthlyIncome,
-              amount: '₹0.00',
+              amount: '₹50,000',
               icon: Icons.trending_up,
               color: AppColors.success,
             ),
             _StatCard(
               title: AppStrings.monthlyExpenses,
-              amount: '₹0.00',
+              amount: '₹28,500',
               icon: Icons.trending_down,
               color: AppColors.error,
             ),
             _StatCard(
               title: AppStrings.totalAssets,
-              amount: '₹771.00',
+              amount: '₹1,25,000',
               icon: Icons.account_balance,
               color: AppColors.info,
             ),
             _StatCard(
               title: AppStrings.totalLiabilities,
-              amount: '₹0.00',
+              amount: '₹15,000',
               icon: Icons.credit_card,
               color: AppColors.warning,
             ),

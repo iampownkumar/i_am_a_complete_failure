@@ -79,6 +79,10 @@ class AppColors {
   static const Color income = Color(0xFF10B981); // Green
   static const Color expense = Color(0xFFEF4444); // Red
   static const Color transfer = Color(0xFF3B82F6); // Blue
+  static const Color investment = Color(0xFF8B5CF6); // Purple
+  
+  // Additional Colors
+  static const Color purple = Color(0xFF8B5CF6); // Purple
   
   // Chart Colors
   static const List<Color> chartColors = [

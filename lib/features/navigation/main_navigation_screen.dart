@@ -4,6 +4,7 @@ import '../accounts/screens/accounts_screen.dart';
 import '../credit_cards/screens/credit_cards_screen.dart';
 import '../analytics/screens/analytics_screen.dart';
 import '../settings/screens/settings_screen.dart';
+import '../sms/screens/sms_parsing_screen.dart';
 
 /// Main Navigation Screen
 /// Location: lib/features/navigation/main_navigation_screen.dart

@@ -5,6 +5,7 @@ enum TransactionType {
   income,
   expense,
   transfer,
+  investment,
 }
 
 enum AccountType {

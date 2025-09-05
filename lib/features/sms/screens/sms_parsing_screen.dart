@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/services/sms/sms_parser_service.dart';
 import '../../../core/constants/enums/app_enums.dart';
 import '../widgets/parsed_transaction_card.dart';
@@ -114,7 +115,7 @@ class _SmsParsingScreenState extends State<SmsParsingScreen> {
                             height: 16,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Icon(Icons.parse),
+                        : const Icon(Icons.analytics),
                     label: Text(_isLoading ? 'Parsing...' : 'Parse SMS'),
                   ),
                 ),
@@ -430,7 +431,7 @@ class _SmsParsingScreenState extends State<SmsParsingScreen> {
         });
         
         // Update stats
-        await _smsParserService._updateStats(true);
+        await _updateStats(true);
         await _loadData(); // Reload stats
       } else {
         setState(() {
@@ -439,7 +440,7 @@ class _SmsParsingScreenState extends State<SmsParsingScreen> {
         });
         
         // Update stats
-        await _smsParserService._updateStats(false);
+        await _updateStats(false);
         await _loadData(); // Reload stats
       }
     } catch (e) {
@@ -449,7 +450,7 @@ class _SmsParsingScreenState extends State<SmsParsingScreen> {
       });
       
       // Update stats
-      await _smsParserService._updateStats(false);
+      await _updateStats(false);
       await _loadData(); // Reload stats
     }
   }
@@ -574,5 +575,21 @@ class _SmsParsingScreenState extends State<SmsParsingScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Test Pattern - Coming Soon')),
     );
+  }
+
+  /// Update parsing statistics
+  Future<void> _updateStats(bool success) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final totalParsed = (prefs.getInt('sms_total_parsed') ?? 0) + 1;
+      final totalSuccessful = (prefs.getInt('sms_total_successful') ?? 0) + (success ? 1 : 0);
+      final totalFailed = (prefs.getInt('sms_total_failed') ?? 0) + (success ? 0 : 1);
+      
+      await prefs.setInt('sms_total_parsed', totalParsed);
+      await prefs.setInt('sms_total_successful', totalSuccessful);
+      await prefs.setInt('sms_total_failed', totalFailed);
+    } catch (e) {
+      print('Failed to update parsing stats: $e');
+    }
   }
 }

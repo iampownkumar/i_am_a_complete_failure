@@ -132,11 +132,11 @@ class SmsPatternListTile extends StatelessWidget {
             // Group Information
             Row(
               children: [
-                _buildGroupInfo('Amount', pattern.amountGroup),
+                _buildGroupInfo(context, 'Amount', pattern.amountGroup),
                 const SizedBox(width: 16),
-                _buildGroupInfo('Date', pattern.dateGroup),
+                _buildGroupInfo(context, 'Date', pattern.dateGroup),
                 const SizedBox(width: 16),
-                _buildGroupInfo('Balance', pattern.balanceGroup),
+                _buildGroupInfo(context, 'Balance', pattern.balanceGroup),
               ],
             ),
             
@@ -188,7 +188,7 @@ class SmsPatternListTile extends StatelessWidget {
   }
 
   /// Build group information
-  Widget _buildGroupInfo(String label, int groupNumber) {
+  Widget _buildGroupInfo(BuildContext context, String label, int groupNumber) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -28,7 +28,7 @@ class SmsParserService {
       
       _isInitialized = true;
     } catch (e) {
-      throw SmsException(message: 'Failed to initialize SMS parser: $e');
+      throw NetworkException(message: 'Failed to initialize SMS parser: $e');
     }
   }
 
@@ -218,7 +218,7 @@ class SmsParserService {
       
       return null; // No pattern matched
     } catch (e) {
-      throw SmsException(message: 'Failed to parse SMS: $e');
+      throw NetworkException(message: 'Failed to parse SMS: $e');
     }
   }
 
@@ -262,7 +262,7 @@ class SmsParserService {
         confidence: _calculateConfidence(match, pattern),
       );
     } catch (e) {
-      throw SmsException(message: 'Failed to extract transaction data: $e');
+      throw NetworkException(message: 'Failed to extract transaction data: $e');
     }
   }
 
