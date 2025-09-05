@@ -12,7 +12,7 @@ import 'core/errors/handlers/error_handler.dart';
 import 'core/services/database/database_service.dart';
 import 'shared/providers/app_provider.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
-import 'features/dashboard/screens/dashboard_screen.dart';
+import 'features/navigation/main_navigation_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,8 +84,8 @@ class AppInitializer extends StatelessWidget {
           return const OnboardingScreen();
         }
         
-        // Return main dashboard
-        return const DashboardScreen();
+        // Return main navigation with bottom tabs
+        return const MainNavigationScreen();
       },
     );
   }
