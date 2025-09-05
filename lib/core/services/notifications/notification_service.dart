@@ -1,6 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../errors/exceptions/app_exceptions.dart';
 
 /// Notification Service
@@ -135,13 +134,15 @@ class NotificationService {
         iOS: iosDetails,
       );
 
-      await _notifications.schedule(
+      await _notifications.zonedSchedule(
         id,
         title,
         body,
         scheduledDate,
         details,
         payload: payload,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       );
     } catch (e) {
       throw NotificationException(message: 'Failed to schedule notification: $e');
@@ -186,13 +187,15 @@ class NotificationService {
       // Schedule for each day
       for (final day in days) {
         final scheduledDate = _nextInstanceOfTime(hour, minute, day);
-        await _notifications.schedule(
+        await _notifications.zonedSchedule(
           id + day, // Unique ID for each day
           title,
           body,
           scheduledDate,
           details,
           payload: payload,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         );
       }
     } catch (e) {
