@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/credit_card_list_tile.dart';
 import '../widgets/credit_card_summary_card.dart';
 import 'add_credit_card_screen.dart';
@@ -7,14 +6,14 @@ import 'add_credit_card_screen.dart';
 /// Credit Cards Screen - Main screen for managing credit cards
 /// Location: lib/features/credit_cards/screens/credit_cards_screen.dart
 /// Purpose: Display all credit cards, balances, limits, and quick actions
-class CreditCardsScreen extends ConsumerStatefulWidget {
+class CreditCardsScreen extends StatefulWidget {
   const CreditCardsScreen({super.key});
 
   @override
-  ConsumerState<CreditCardsScreen> createState() => _CreditCardsScreenState();
+  State<CreditCardsScreen> createState() => _CreditCardsScreenState();
 }
 
-class _CreditCardsScreenState extends ConsumerState<CreditCardsScreen> {
+class _CreditCardsScreenState extends State<CreditCardsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
