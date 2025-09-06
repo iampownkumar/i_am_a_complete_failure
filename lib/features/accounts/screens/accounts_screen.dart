@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../widgets/account_list_tile.dart';
 import '../widgets/account_summary_card.dart';
 import 'add_account_screen.dart';
+import '../../../core/services/database/database_service.dart';
+import '../../../core/constants/enums/app_enums.dart';
+import '../../../shared/models/account.dart';
 
 /// Accounts Screen - Main screen for managing bank accounts and wallets
 /// Location: lib/features/accounts/screens/accounts_screen.dart
@@ -14,6 +17,39 @@ class AccountsScreen extends StatefulWidget {
 }
 
 class _AccountsScreenState extends State<AccountsScreen> {
+  List<Account> _accounts = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAccounts();
+  }
+
+  /// Load accounts from database
+  Future<void> _loadAccounts() async {
+    try {
+      final databaseService = DatabaseService.instance;
+      final accounts = await databaseService.getAccounts();
+      setState(() {
+        _accounts = accounts;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading accounts: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +65,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          // TODO: Implement refresh logic
-          await Future.delayed(const Duration(seconds: 1));
-        },
+        onRefresh: _loadAccounts,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(16.0),
@@ -85,66 +118,59 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   /// Build the list of accounts
   Widget _buildAccountsList() {
-    // TODO: Replace with actual data from provider
-    final List<Map<String, dynamic>> accounts = [
-      {
-        'id': '1',
-        'name': 'HDFC Savings Account',
-        'accountNumber': '1234567890',
-        'balance': 45000.0,
-        'currency': 'INR',
-        'type': 'Savings',
-        'bankName': 'HDFC Bank',
-        'isDefault': true,
-      },
-      {
-        'id': '2',
-        'name': 'SBI Current Account',
-        'accountNumber': '9876543210',
-        'balance': 25000.0,
-        'currency': 'INR',
-        'type': 'Current',
-        'bankName': 'State Bank of India',
-        'isDefault': false,
-      },
-      {
-        'id': '3',
-        'name': 'Paytm Wallet',
-        'accountNumber': '9876543210',
-        'balance': 2500.0,
-        'currency': 'INR',
-        'type': 'Wallet',
-        'bankName': 'Paytm',
-        'isDefault': false,
-      },
-    ];
+    if (_isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
-    if (accounts.isEmpty) {
+    if (_accounts.isEmpty) {
       return _buildEmptyState();
     }
 
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: accounts.length,
+      itemCount: _accounts.length,
       separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
-        final account = accounts[index];
+        final account = _accounts[index];
         return AccountListTile(
-          id: account['id'],
-          name: account['name'],
-          accountNumber: account['accountNumber'],
-          balance: account['balance'],
-          currency: account['currency'],
-          type: account['type'],
-          bankName: account['bankName'],
-          isDefault: account['isDefault'],
-          onTap: () => _navigateToAccountDetails(account['id']),
-          onEdit: () => _navigateToEditAccount(account['id']),
-          onDelete: () => _showDeleteConfirmation(account['id'], account['name']),
+          id: account.id,
+          name: account.name,
+          accountNumber: account.accountNumber ?? '',
+          balance: account.balance,
+          currency: account.currency.name,
+          type: _getAccountTypeString(account.type),
+          bankName: account.bankName ?? '',
+          isDefault: false, // TODO: Add isDefault property to Account model
+          onTap: () => _navigateToAccountDetails(account.id),
+          onEdit: () => _navigateToEditAccount(account.id),
+          onDelete: () => _showDeleteConfirmation(account.id, account.name),
         );
       },
     );
+  }
+
+  /// Get account type string
+  String _getAccountTypeString(AccountType type) {
+    switch (type) {
+      case AccountType.savings:
+        return 'Savings';
+      case AccountType.checking:
+        return 'Checking';
+      case AccountType.investment:
+        return 'Investment';
+      case AccountType.loan:
+        return 'Loan';
+      case AccountType.credit:
+        return 'Credit';
+      case AccountType.cash:
+        return 'Cash';
+    }
   }
 
   /// Build empty state when no accounts exist
@@ -287,13 +313,18 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   /// Navigate to add account screen
-  void _navigateToAddAccount(BuildContext context) {
-    Navigator.push(
+  void _navigateToAddAccount(BuildContext context) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => const AddAccountScreen(),
       ),
     );
+    
+    // Refresh accounts list when returning from add account screen
+    if (result == true || result == null) {
+      await _loadAccounts();
+    }
   }
 
   /// Navigate to edit account screen
@@ -369,10 +400,47 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   /// Delete account
-  void _deleteAccount(String accountId) {
-    // TODO: Implement delete account logic
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Delete account $accountId - Coming Soon')),
-    );
+  void _deleteAccount(String accountId) async {
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Delete from database
+      final databaseService = DatabaseService.instance;
+      await databaseService.deleteAccount(accountId);
+
+      // Close loading dialog
+      if (mounted) {
+        Navigator.pop(context); // Close loading dialog
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account deleted successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        
+        // Refresh the accounts list
+        await _loadAccounts();
+      }
+    } catch (e) {
+      // Close loading dialog
+      if (mounted) {
+        Navigator.pop(context); // Close loading dialog
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error deleting account: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }

@@ -227,7 +227,7 @@ class RecentTransactionsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  transaction['type'].name.toUpperCase(),
+                  _getTransactionTypeString(transaction['type']),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: isExpense ? Colors.red : Colors.green,
                     fontWeight: FontWeight.bold,
@@ -291,6 +291,17 @@ class RecentTransactionsCard extends StatelessWidget {
         return Colors.cyan;
       default:
         return Colors.grey;
+    }
+  }
+
+  /// Get transaction type string safely
+  String _getTransactionTypeString(dynamic type) {
+    if (type is TransactionType) {
+      return type.name.toUpperCase();
+    } else if (type is String) {
+      return type.toUpperCase();
+    } else {
+      return 'UNKNOWN';
     }
   }
 

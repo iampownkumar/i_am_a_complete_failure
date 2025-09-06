@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/strings/app_strings.dart';
 import '../../../core/constants/enums/app_enums.dart';
 import '../../../core/constants/colors/app_colors.dart';
+import '../../../core/services/database/database_service.dart';
 import '../../../shared/models/account.dart';
 
 class AddAccountScreen extends StatefulWidget {
@@ -369,13 +370,60 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
     }
   }
 
-  void _saveAccount() {
+  void _saveAccount() async {
     if (_formKey.currentState!.validate()) {
-      // TODO: Implement save account logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Account saved successfully!')),
-      );
-      Navigator.pop(context);
+      try {
+        // Show loading indicator
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+
+        // Create account object
+        final account = Account(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: _nameController.text.trim(),
+          accountNumber: _accountNumberController.text.trim(),
+          bankName: _bankNameController.text.trim(),
+          balance: double.parse(_balanceController.text),
+          currency: _selectedCurrency,
+          type: _selectedAccountType,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+
+        // Save to database
+        final databaseService = DatabaseService.instance;
+        await databaseService.insertAccount(account);
+
+        // Close loading dialog
+        if (mounted) {
+          Navigator.pop(context); // Close loading dialog
+          Navigator.pop(context); // Close add account screen
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Account saved successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      } catch (e) {
+        // Close loading dialog
+        if (mounted) {
+          Navigator.pop(context); // Close loading dialog
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error saving account: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
   }
 }

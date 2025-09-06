@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/timezone.dart' as tz;
 import '../../errors/exceptions/app_exceptions.dart';
 
 /// Notification Service
@@ -138,7 +139,7 @@ class NotificationService {
         id,
         title,
         body,
-        scheduledDate,
+        tz.TZDateTime.from(scheduledDate, tz.local),
         details,
         payload: payload,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
@@ -191,7 +192,7 @@ class NotificationService {
           id + day, // Unique ID for each day
           title,
           body,
-          scheduledDate,
+          tz.TZDateTime.from(scheduledDate, tz.local),
           details,
           payload: payload,
           androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
